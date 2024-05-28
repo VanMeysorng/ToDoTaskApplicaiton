@@ -64,7 +64,7 @@ class LinkedList:
         tasks = []
         current = self.head
         while current is not None:
-            tasks.append((current.task, current.priority, current.due_date, current.status))
+            tasks.append((current.task, current.priority, current.start_date, current.due_date, current.status))
             current = current.next
         return tasks
 
@@ -118,7 +118,6 @@ def edit_task():
                 st.sidebar.error("Task number out of range.")
         else:
             st.sidebar.error("Edit value cannot be empty.")
-            
 
 def remove_task():
     st.sidebar.subheader("Remove a task")
@@ -132,32 +131,30 @@ def remove_task():
         else:
             st.sidebar.error("Task description cannot be empty.")
 
-
 def display_tasks():
     st.subheader("Your To-Do List")
     tasks = st.session_state.tasks_list.display_tasks()
     if not tasks:
         st.write("No tasks yet. Add some tasks using the sidebar!")
     else:
-        task_numbers = list(range(1, len(tasks) + 1))  # Generate task numbers starting from 1
         st.table({
-            "Task Number": task_numbers,
             "Task": [task[0] for task in tasks],
             "Priority": [task[1] for task in tasks],
-            "Due Date": [task[2] for task in tasks],
-            "Status": [task[3] for task in tasks]
+            "Start Date": [task[2] for task in tasks],
+            "Due Date": [task[3] for task in tasks],
+            "Status": [task[4] for task in tasks]
         })
 
 def main():
     st.title("To-Do List Application")
 
     init_tasks_list()
-    
+
     st.sidebar.title("Manage Your Tasks")
     add_task()
     remove_task()
     edit_task()
-    
+
     display_tasks()
 
 if __name__ == "__main__":
